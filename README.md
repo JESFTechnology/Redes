@@ -5,12 +5,6 @@
 ![HTML](https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=white)
 ![Bootstrap](https://img.shields.io/badge/Bootstrap-563D7C?style=for-the-badge&logo=bootstrap&logoColor=white)
 
-# Conversor Decimal, Binário e Hexadecimal
-
-Aplicação web desenvolvida em **Python** utilizando o framework **Flask**, com o objetivo de converter valores numéricos entre diferentes bases.
-
----
-
 ## Funcionalidades
 
 O sistema permite realizar conversões entre as seguintes bases numéricas:
