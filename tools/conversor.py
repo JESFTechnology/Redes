@@ -51,9 +51,128 @@ class Hex():
             else:
                 binario = "1" + binario
             decimal = decimal // 2
+
+        #Inverter texto do binário
+        binario = binario[::-1]
+
         return binario
     
 
-teste = Hex("2FA")
-print(teste.to_dec())
-print(teste.to_bin())
+class Bin():
+    def __init__(self, value):
+        self.value = value
+
+    def to_dec(self):
+        decimal = 0
+        for i in range(len(self.value)):
+            if self.value[i] == "0":
+                decimal += 0 * (2 ** (len(self.value) - 1 - i))
+            elif self.value[i] == "1":
+                decimal += 1 * (2 ** (len(self.value) - 1 - i))
+        return decimal
+
+    def to_hex(self):
+        #Criando conversão convensional
+        decimal = self.to_dec()
+        hexadecimal = ""
+        while decimal > 0:
+            if decimal % 16 == 0:
+                hexadecimal = "0" + hexadecimal
+            elif decimal % 16 == 1:
+                hexadecimal = "1" + hexadecimal
+            elif decimal % 16 == 2:
+                hexadecimal = "2" + hexadecimal
+            elif decimal % 16 == 3:
+                hexadecimal = "3" + hexadecimal
+            elif decimal % 16 == 4:
+                hexadecimal = "4" + hexadecimal
+            elif decimal % 16 == 5:
+                hexadecimal = "5" + hexadecimal
+            elif decimal % 16 == 6:
+                hexadecimal = "6" + hexadecimal
+            elif decimal % 16 == 7:
+                hexadecimal = "7" + hexadecimal
+            elif decimal % 16 == 8:
+                hexadecimal = "8" + hexadecimal
+            elif decimal % 16 == 9:
+                hexadecimal = "9" + hexadecimal
+            elif decimal % 16 == 10:
+                hexadecimal = "A" + hexadecimal
+            elif decimal % 16 == 11:
+                hexadecimal = "B" + hexadecimal
+            elif decimal % 16 == 12:
+                hexadecimal = "C" + hexadecimal
+            elif decimal % 16 == 13:
+                hexadecimal = "D" + hexadecimal
+            elif decimal % 16 == 14:
+                hexadecimal = "E" + hexadecimal
+            elif decimal % 16 == 15:
+                hexadecimal = "F" + hexadecimal
+            decimal = decimal // 16
+
+        #Inverter texto do binário
+        hexadecimal = hexadecimal[::-1]
+
+        return hexadecimal
+
+class Dec():
+    def __init__(self, value):
+        self.value = value
+
+    def to_bin(self):
+        decimal = self.value
+        binario = ""
+        while decimal > 0:
+            if decimal % 2 == 0:
+                binario = "0" + binario
+            else:
+                binario = "1" + binario
+            decimal = decimal // 2
+
+        #Inverter texto do binário
+        binario = binario[::-1]
+
+        return binario
+    
+    def to_hex(self):
+        decimal = self.value
+        hexadecimal = ""
+        while decimal > 0:
+            if decimal % 16 == 0:
+                hexadecimal = "0" + hexadecimal
+            elif decimal % 16 == 1:
+                hexadecimal = "1" + hexadecimal
+            elif decimal % 16 == 2:
+                hexadecimal = "2" + hexadecimal
+            elif decimal % 16 == 3:
+                hexadecimal = "3" + hexadecimal
+            elif decimal % 16 == 4:
+                hexadecimal = "4" + hexadecimal
+            elif decimal % 16 == 5:
+                hexadecimal = "5" + hexadecimal
+            elif decimal % 16 == 6:
+                hexadecimal = "6" + hexadecimal
+            elif decimal % 16 == 7:
+                hexadecimal = "7" + hexadecimal
+            elif decimal % 16 == 8:
+                hexadecimal = "8" + hexadecimal
+            elif decimal % 16 == 9:
+                hexadecimal = "9" + hexadecimal
+            elif decimal % 16 == 10:
+                hexadecimal = "A" + hexadecimal
+            elif decimal % 16 == 11:
+                hexadecimal = "B" + hexadecimal
+            elif decimal % 16 == 12:
+                hexadecimal = "C" + hexadecimal
+            elif decimal % 16 == 13:
+                hexadecimal = "D" + hexadecimal
+            elif decimal % 16 == 14:
+                hexadecimal = "E" + hexadecimal
+            elif decimal % 16 == 15:
+                hexadecimal = "F" + hexadecimal
+            decimal = decimal // 16
+
+        #Inverter texto do binário
+        hexadecimal = hexadecimal[::-1]
+
+        return hexadecimal
