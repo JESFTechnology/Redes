@@ -17,7 +17,7 @@ def conversor():
 @app.route('/api', methods=['GET'])
 def api():
     # Example API endpoint that returns a JSON response
-    data = request.get_json()
+    data : dict = request.get_json()
     valor_a_converter = data.get('value', 0)
     tipo_a_converter = data.get('type', 0)
 
