@@ -28,6 +28,7 @@ def api():
         "error":False
     }
 
+
     from tools.conversor import Hex, Bin, Dec
 
     match tipo_a_converter:
@@ -55,3 +56,9 @@ def api():
 
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0', port=5001)
+
+
+
+
+
+    
