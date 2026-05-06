@@ -14,7 +14,7 @@ def about():
 def conversor():
     return render_template('conversor.html')
 
-@app.route('/api', methods=['GET'])
+@app.route('/api', methods=['POST'])
 def api():
     # Example API endpoint that returns a JSON response
     data : dict = request.get_json()
@@ -38,7 +38,7 @@ def api():
 
         case "dec":
             # Converter de decimal para binário
-            dec_conversor = Dec(valor_a_converter)
+            dec_conversor = Dec(int(valor_a_converter))
             resultado_dos_conversores["dec"] = valor_a_converter
             resultado_dos_conversores["bin"] = dec_conversor.to_bin()
             resultado_dos_conversores["hex"] = dec_conversor.to_hex()
@@ -53,4 +53,4 @@ def api():
     return jsonify(resultado_dos_conversores)
 
 if __name__ == '__main__':
-    app.run(debug=True, host='0.0.0.0', port=5000)
+    app.run(debug=True, host='0.0.0.0', port=5001)

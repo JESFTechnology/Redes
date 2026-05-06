@@ -160,6 +160,54 @@
 
 </main>
 
+<script>
+// Função genérica
+async function converter(valor, tipo) {
+    const response = await fetch("/api", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            value: valor,
+            type: tipo
+        })
+    });
+
+    return await response.json();
+}
+
+// DECIMAL
+document.getElementById("button_Dec").addEventListener("click", async () => {
+    const valor = document.getElementById("input_Dec").value;
+
+    const data = await converter(valor, "dec");
+
+    document.getElementById("input_Bin").value = data.bin;
+    document.getElementById("input_Hex").value = data.hex;
+});
+
+// BINARIO
+document.getElementById("button_Bin").addEventListener("click", async () => {
+    const valor = document.getElementById("input_Bin").value;
+
+    const data = await converter(valor, "bin");
+
+    document.getElementById("input_Dec").value = data.dec;
+    document.getElementById("input_Hex").value = data.hex;
+});
+
+// HEXADECIMAL
+document.getElementById("button_Hex").addEventListener("click", async () => {
+    const valor = document.getElementById("input_Hex").value;
+
+    const data = await converter(valor, "hex");
+
+    document.getElementById("input_Dec").value = data.dec;
+    document.getElementById("input_Bin").value = data.bin;
+});
+</script>
+
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
