@@ -160,6 +160,28 @@
 
 </main>
 
+<!-- Modal de Erro -->
+<div class="modal fade" id="errorModal" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content bg-dark text-white">
+
+      <div class="modal-header border-0">
+        <h5 class="modal-title">Erro na Conversão</h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+      </div>
+
+      <div class="modal-body">
+        <p id="errorMessage">Valor inválido!</p>
+      </div>
+
+      <div class="modal-footer border-0">
+        <button type="button" class="btn btn-custom" data-bs-dismiss="modal">Fechar</button>
+      </div>
+
+    </div>
+  </div>
+</div>
+
 <script>
 // Função genérica
 async function converter(valor, tipo) {
