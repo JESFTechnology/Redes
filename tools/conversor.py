@@ -39,11 +39,13 @@ class Hex():
                 decimal += 14 * (16 ** (len(self.value) - 1 - i))
             elif self.value[i].upper() == "F":
                 decimal += 15 * (16 ** (len(self.value) - 1 - i))
-        return decimal
+            else:
+                return True, 0
+        return False, decimal
 
     def to_bin(self):
         #Criando conversão convensional
-        decimal = self.to_dec()
+        error, decimal = self.to_dec()
         binario = ""
         while decimal > 0:
             if decimal % 2 == 0:
@@ -53,9 +55,9 @@ class Hex():
             decimal = decimal // 2
 
         #Inverter texto do binário
-        binario = binario[::-1]
+        #binario = binario[::-1]
 
-        return binario
+        return error, binario
     
 
 class Bin():
@@ -64,16 +66,19 @@ class Bin():
 
     def to_dec(self):
         decimal = 0
+        error = False
         for i in range(len(self.value)):
             if self.value[i] == "0":
                 decimal += 0 * (2 ** (len(self.value) - 1 - i))
             elif self.value[i] == "1":
                 decimal += 1 * (2 ** (len(self.value) - 1 - i))
-        return decimal
+            else:
+                error = True
+        return error, decimal
 
     def to_hex(self):
         #Criando conversão convensional
-        decimal = self.to_dec()
+        error, decimal = self.to_dec()
         hexadecimal = ""
         while decimal > 0:
             if decimal % 16 == 0:
@@ -111,9 +116,9 @@ class Bin():
             decimal = decimal // 16
 
         #Inverter texto do binário
-        hexadecimal = hexadecimal[::-1]
+        #hexadecimal = hexadecimal[::-1]
 
-        return hexadecimal
+        return error, hexadecimal
 
 class Dec():
     def __init__(self, value):
@@ -130,9 +135,9 @@ class Dec():
             decimal = decimal // 2
 
         #Inverter texto do binário
-        binario = binario[::-1]
+        #binario = binario[::-1]
 
-        return binario
+        return False, binario
     
     def to_hex(self):
         decimal = self.value
@@ -170,9 +175,11 @@ class Dec():
                 hexadecimal = "E" + hexadecimal
             elif decimal % 16 == 15:
                 hexadecimal = "F" + hexadecimal
+            else:
+                return True, hexadecimal
             decimal = decimal // 16
 
         #Inverter texto do binário
-        hexadecimal = hexadecimal[::-1]
+        #hexadecimal = hexadecimal[::-1]
 
-        return hexadecimal
+        return False, hexadecimal

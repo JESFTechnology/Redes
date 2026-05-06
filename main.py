@@ -24,7 +24,8 @@ def api():
     resultado_dos_conversores = {
         "bin": 0,
         "dec": 0,
-        "hex": 0
+        "hex": 0,
+        "error":False
     }
 
     from tools.conversor import Hex, Bin, Dec
@@ -32,22 +33,22 @@ def api():
     match tipo_a_converter:
         case "bin":
             bin_conversor = Bin(valor_a_converter)
-            resultado_dos_conversores["dec"] = bin_conversor.to_dec()
+            resultado_dos_conversores["error"], resultado_dos_conversores["dec"] = bin_conversor.to_dec()
             resultado_dos_conversores["bin"] = valor_a_converter
-            resultado_dos_conversores["hex"] = bin_conversor.to_hex()
+            resultado_dos_conversores["error"], resultado_dos_conversores["hex"] = bin_conversor.to_hex()
 
         case "dec":
             # Converter de decimal para binário
             dec_conversor = Dec(int(valor_a_converter))
             resultado_dos_conversores["dec"] = valor_a_converter
-            resultado_dos_conversores["bin"] = dec_conversor.to_bin()
-            resultado_dos_conversores["hex"] = dec_conversor.to_hex()
+            resultado_dos_conversores["error"], resultado_dos_conversores["bin"] = dec_conversor.to_bin()
+            resultado_dos_conversores["error"], resultado_dos_conversores["hex"] = dec_conversor.to_hex()
             
         case "hex":
             # Converter de hexadecimal para decimal
             hex_conversor = Hex(valor_a_converter)
-            resultado_dos_conversores["dec"] = hex_conversor.to_dec()
-            resultado_dos_conversores["bin"] = hex_conversor.to_bin()
+            resultado_dos_conversores["error"], resultado_dos_conversores["dec"] = hex_conversor.to_dec()
+            resultado_dos_conversores["error"], resultado_dos_conversores["bin"] = hex_conversor.to_bin()
             resultado_dos_conversores["hex"] = valor_a_converter
 
     return jsonify(resultado_dos_conversores)
