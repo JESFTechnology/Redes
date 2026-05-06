@@ -50,6 +50,12 @@
             box-shadow: none;
         }
 
+        /* VISUAL DE NÚMERO PARA OS INPUTS */
+        #input_Dec, #input_Bin, #input_Hex {
+            font-size: 1.1em;
+            letter-spacing: 2px;
+        }
+
         .btn-custom {
             background: #3c91e6;
             border: none;
@@ -80,6 +86,12 @@
             color: #ffffff !important;
             transform: scale(1.05);
         }
+
+        input[type=number]::-webkit-inner-spin-button,
+        input[type=number]::-webkit-outer-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
     </style>
 </head>
 
@@ -87,50 +99,36 @@
     
 <nav class="navbar navbar-expand-lg navbar-dark">
     <div class="container">
-
-        <!-- Título -->
         <a class="navbar-brand fw-bold" href="index.html">Bases Numéricas</a>
-
-        <!-- Botão mobile -->
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#menu">
             <span class="navbar-toggler-icon"></span>
         </button>
-
-        <!-- Links -->
         <div class="collapse navbar-collapse justify-content-end" id="menu">
             <ul class="navbar-nav">
-
                 <li class="nav-item">
                     <a class="nav-link" href="/">Início</a>
                 </li>
-
                 <li class="nav-item">
                     <a class="nav-link" href="/conversor">Conversor</a>
                 </li>
-
                 <li class="nav-item">
                     <a class="nav-link" href="/about">Sobre</a>
                 </li>
-
             </ul>
         </div>
-
     </div>
 </nav>
 
 <main class="container py-5">
-
     <h1 class="text-center text-white mb-5">Conversor de Bases</h1>
 
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card p-4">
-
                 <div class="row g-4">
-
                     <div class="col-md-4">
                         <label for="input_Dec">Decimal</label>
-                        <input class="form-control mb-2" type="text" id="input_Dec" placeholder="Digite um número">
+                        <input class="form-control mb-2" type="text" id="input_Dec" maxlength="15">
                         <button class="btn btn-custom text-white w-100" id="button_Dec">
                             Converter
                         </button>
@@ -138,7 +136,7 @@
 
                     <div class="col-md-4">
                         <label for="input_Bin">Binário</label>
-                        <input class="form-control mb-2" type="text" id="input_Bin" placeholder="Digite um número">
+                        <input class="form-control mb-2" type="text" id="input_Bin" maxlength="64">
                         <button class="btn btn-custom text-white w-100" id="button_Bin">
                             Converter
                         </button>
@@ -146,112 +144,126 @@
 
                     <div class="col-md-4">
                         <label for="input_Hex">Hexadecimal</label>
-                        <input class="form-control mb-2" type="text" id="input_Hex" placeholder="Digite um número">
+                        <input class="form-control mb-2" type="text" id="input_Hex" maxlength="16">
                         <button class="btn btn-custom text-white w-100" id="button_Hex">
                             Converter
                         </button>
                     </div>
-
                 </div>
-
             </div>
         </div>
     </div>
-
 </main>
 
 <!-- Modal de Erro -->
 <div class="modal fade" id="errorModal" tabindex="-1">
-  <div class="modal-dialog">
-    <div class="modal-content bg-dark text-white">
-
-      <div class="modal-header border-0">
-        <h5 class="modal-title">Erro na Conversão</h5>
-        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
-      </div>
-
-      <div class="modal-body">
-        <p id="errorMessage">Valor inválido!</p>
-      </div>
-
-      <div class="modal-footer border-0">
-        <button type="button" class="btn btn-custom" data-bs-dismiss="modal">Fechar</button>
-      </div>
-
-    </div>
-  </div>
+ <div class="modal-dialog">
+   <div class="modal-content bg-dark text-white">
+     <div class="modal-header border-0">
+      <h5 class="modal-title">Erro na Conversão</h5>
+      <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+     </div>
+     <div class="modal-body">
+      <p id="errorMessage">Valor inválido!</p>
+     </div>
+     <div class="modal-footer border-0">
+      <button type="button" class="btn btn-custom" data-bs-dismiss="modal">Fechar</button>
+     </div>
+   </div>
+ </div>
 </div>
 
 <script>
-
-// Função genérica
-async function converter(valor, tipo) {
-    const response = await fetch("/api", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-            value: valor,
-            type: tipo
-        })
+    document.addEventListener('DOMContentLoaded', function() {
+        
+        const inputDec = document.getElementById('input_Dec');
+        inputDec.addEventListener('input', function(e) {
+            this.value = this.value.replace(/[^0-9]/g, '');
+        });
+        inputDec.addEventListener('keypress', function(e) {
+            if (!/[0-9]/.test(e.key)) e.preventDefault();
+        });
+        
+        const inputBin = document.getElementById('input_Bin');
+        inputBin.addEventListener('input', function(e) {
+            this.value = this.value.replace(/[^01]/g, '');
+        });
+        inputBin.addEventListener('keypress', function(e) {
+            if (!/[01]/.test(e.key)) e.preventDefault();
+        });
+        
+        const inputHex = document.getElementById('input_Hex');
+        inputHex.addEventListener('input', function(e) {
+            this.value = this.value.replace(/[^0-9a-fA-F]/g, '').toUpperCase();
+        });
+        inputHex.addEventListener('keypress', function(e) {
+            if (!/[0-9a-fA-F]/.test(e.key.toUpperCase())) e.preventDefault();
+        });
     });
 
-    return await response.json();
-}
+    async function converter(valor, tipo) {
+        const response = await fetch("/api", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                value: valor,
+                type: tipo
+            })
+        });
 
-// DECIMAL
-document.getElementById("button_Dec").addEventListener("click", async () => {
-    const valor = document.getElementById("input_Dec").value;
-
-    const data = await converter(valor, "dec");
-
-    if (data.error) {
-        errorMessage(data.message || "Erro na conversão, digite um valor válido");
-        return;
+        return await response.json();
     }
 
-    document.getElementById("input_Bin").value = data.bin;
-    document.getElementById("input_Hex").value = data.hex;
-});
+    document.getElementById("button_Dec").addEventListener("click", async () => {
+        const valor = document.getElementById("input_Dec").value;
 
-// BINARIO
-document.getElementById("button_Bin").addEventListener("click", async () => {
-    const valor = document.getElementById("input_Bin").value;
+        const data = await converter(valor, "dec");
 
-    const data = await converter(valor, "bin");
-    
-    if (data.error) {
-        errorMessage(data.message || "Erro na conversão, digite um valor válido");
-        return;
+        if (data.error) {
+            errorMessage(data.message || "Erro na conversão, digite um valor válido");
+            return;
+        }
+
+        document.getElementById("input_Bin").value = data.bin;
+        document.getElementById("input_Hex").value = data.hex;
+    });
+
+    document.getElementById("button_Bin").addEventListener("click", async () => {
+        const valor = document.getElementById("input_Bin").value;
+
+        const data = await converter(valor, "bin");
+        
+        if (data.error) {
+            errorMessage(data.message || "Erro na conversão, digite um valor válido");
+            return;
+        }
+
+        document.getElementById("input_Dec").value = data.dec;
+        document.getElementById("input_Hex").value = data.hex;
+    });
+
+    document.getElementById("button_Hex").addEventListener("click", async () => {
+        const valor = document.getElementById("input_Hex").value;
+
+        const data = await converter(valor, "hex");
+
+        if (data.error) {
+            errorMessage(data.message || "Erro na conversão, digite um valor válido");
+            return;
+        }
+
+        document.getElementById("input_Dec").value = data.dec;
+        document.getElementById("input_Bin").value = data.bin;
+    });
+
+    function errorMessage(msg) {
+        document.getElementById("errorMessage").innerText = msg;
+
+        const modal = new bootstrap.Modal(document.getElementById('errorModal'));
+        modal.show();
     }
-
-    document.getElementById("input_Dec").value = data.dec;
-    document.getElementById("input_Hex").value = data.hex;
-});
-
-// HEXADECIMAL
-document.getElementById("button_Hex").addEventListener("click", async () => {
-    const valor = document.getElementById("input_Hex").value;
-
-    const data = await converter(valor, "hex");
-
-    if (data.error) {
-        errorMessage(data.message || "Erro na conversão, digite um valor válido");
-        return;
-    }
-
-    document.getElementById("input_Dec").value = data.dec;
-    document.getElementById("input_Bin").value = data.bin;
-});
-
-function errorMessage(msg) {
-    document.getElementById("errorMessage").innerText = msg;
-
-    const modal = new bootstrap.Modal(document.getElementById('errorModal'));
-    modal.show();
-}
-
 </script>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
